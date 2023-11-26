@@ -2,6 +2,7 @@ package com.ohgiraffers.mvc.employee.controller;
 
 import com.ohgiraffers.mvc.employee.dto.EmpDTO;
 import com.ohgiraffers.mvc.employee.dto.EmpInsertDTO;
+import com.ohgiraffers.mvc.employee.dto.EmpUpdateDTO;
 import com.ohgiraffers.mvc.employee.service.EmpService;
 
 import javax.servlet.ServletException;
@@ -11,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
-@WebServlet("/employees")
-public class SelectEmpServlet extends HttpServlet {
+@WebServlet("/employeesz")
+public class UpdateEmpServlet extends HttpServlet {
 
     private EmpService empService;
 
@@ -56,36 +56,34 @@ public class SelectEmpServlet extends HttpServlet {
         }
         request.getRequestDispatcher(path).forward(request,response);
 
-
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        EmpInsertDTO insert = new EmpInsertDTO();
-        insert.setEmpId(req.getParameter("empId"));
-        insert.setEmpNo(req.getParameter("empNo"));
-        insert.setEmpName(req.getParameter("empName"));
-        insert.setEmail(req.getParameter("email"));
-        insert.setPhone(req.getParameter("phone"));
-        insert.setDeptCode(req.getParameter("deptCode"));
-        insert.setJobcode(req.getParameter("jobCode"));
-        insert.setSalLevel(req.getParameter("salLevel"));
-        insert.setSalary(Integer.parseInt(req.getParameter("salary")));
-        insert.setBonus(Double.parseDouble(req.getParameter("bonus")));
-        insert.setManagerId(req.getParameter("managerId"));
-        insert.setHireDate(java.sql.Date.valueOf(req.getParameter("hireDate")));
+        EmpUpdateDTO update = new EmpUpdateDTO();
+        update.setEmpId(req.getParameter("empId"));
+        update.setEmpNo(req.getParameter("empNo"));
+        update.setEmpName(req.getParameter("empName"));
+        update.setEmail(req.getParameter("email"));
+        update.setPhone(req.getParameter("phone"));
+        update.setDeptCode(req.getParameter("deptCode"));
+        update.setJobCode(req.getParameter("jobCode"));
+        update.setSalLevel(req.getParameter("salLevel"));
+        update.setSalary(Integer.parseInt(req.getParameter("salary")));
+        update.setBonus(Double.parseDouble(req.getParameter("bonus")));
+        update.setManagerId(req.getParameter("managerId"));
+        update.setHireDate(java.sql.Date.valueOf(req.getParameter("hireDate")));
 
-        int result = empService.insert(insert);
+        int result = empService.update(update);
 
         String path;
         if(result > 0){
             path = "/WEB-INF/views/common/successPage.jsp";
-            req.setAttribute("message", "신규 직원 등록 성공");
+            req.setAttribute("message", "업데이트 성공");
         } else {
             path = "/WEB-INF/views/common/errorPage.jsp";
-            req.setAttribute("message", "신규 직원 등록 실패");
+            req.setAttribute("message", "업데이트 실패");
         }
         req.getRequestDispatcher(path).forward(req,resp);
 

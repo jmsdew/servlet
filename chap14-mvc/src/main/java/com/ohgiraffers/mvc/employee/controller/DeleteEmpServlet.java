@@ -1,7 +1,8 @@
 package com.ohgiraffers.mvc.employee.controller;
 
 import com.ohgiraffers.mvc.employee.dto.EmpDTO;
-import com.ohgiraffers.mvc.employee.dto.EmpInsertDTO;
+import com.ohgiraffers.mvc.employee.dto.EmpDeleteDTO;
+import com.ohgiraffers.mvc.employee.dto.EmpUpdateDTO;
 import com.ohgiraffers.mvc.employee.service.EmpService;
 
 import javax.servlet.ServletException;
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/employees")
-public class SelectEmpServlet extends HttpServlet {
+@WebServlet("/employeesd")
+public class DeleteEmpServlet extends HttpServlet {
 
     private EmpService empService;
 
@@ -56,36 +57,23 @@ public class SelectEmpServlet extends HttpServlet {
         }
         request.getRequestDispatcher(path).forward(request,response);
 
-
-
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        EmpInsertDTO insert = new EmpInsertDTO();
-        insert.setEmpId(req.getParameter("empId"));
-        insert.setEmpNo(req.getParameter("empNo"));
-        insert.setEmpName(req.getParameter("empName"));
-        insert.setEmail(req.getParameter("email"));
-        insert.setPhone(req.getParameter("phone"));
-        insert.setDeptCode(req.getParameter("deptCode"));
-        insert.setJobcode(req.getParameter("jobCode"));
-        insert.setSalLevel(req.getParameter("salLevel"));
-        insert.setSalary(Integer.parseInt(req.getParameter("salary")));
-        insert.setBonus(Double.parseDouble(req.getParameter("bonus")));
-        insert.setManagerId(req.getParameter("managerId"));
-        insert.setHireDate(java.sql.Date.valueOf(req.getParameter("hireDate")));
+        EmpDeleteDTO delete = new EmpDeleteDTO();
+        delete.setEmpId(req.getParameter("empId"));
 
-        int result = empService.insert(insert);
+
+        int result = empService.delete(delete);
 
         String path;
         if(result > 0){
             path = "/WEB-INF/views/common/successPage.jsp";
-            req.setAttribute("message", "신규 직원 등록 성공");
+            req.setAttribute("message", "퇴사 처리 성공");
         } else {
             path = "/WEB-INF/views/common/errorPage.jsp";
-            req.setAttribute("message", "신규 직원 등록 실패");
+            req.setAttribute("message", "퇴사 처리 실패");
         }
         req.getRequestDispatcher(path).forward(req,resp);
 
@@ -97,4 +85,5 @@ public class SelectEmpServlet extends HttpServlet {
         System.out.println(empService + " 현재 상태");
 
     }
+
 }

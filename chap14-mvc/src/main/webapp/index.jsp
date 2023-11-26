@@ -7,7 +7,7 @@
 <body>
 <h1><%= "Hello World!" %>
 </h1>
-    <jsp:forward page="WEB-INF/views/main/insertEmp.jsp"/>
+    <jsp:forward page="WEB-INF/views/main/deleteEMP.jsp"/>
    <%-- <a href="/employees">전체 조회</a>
 
     <form action="/employees" method="get">
